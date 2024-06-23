@@ -28,34 +28,29 @@ class View(ft.UserControl):
 
     def load_interface(self):
         # title
-        self._title = ft.Text("Esame 17-07-2023 A", color="blue", size=24)
+        self._title = ft.Text("Simulazione 2023-05-23", color="blue", size=24)
         self._page.controls.append(self._title)
 
         self._txtAnno = ft.TextField(label="Anno", width=400)
 
 
-
-        row1 = ft.Row([self._txtAnno],
-                      alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row1)
-
-        self._txtSalario = ft.Dropdown(label="Salario", width=400)
+        self._txtSalario = ft.TextField(label="Salario", width=400)
         self.btn_graph = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handle_graph, width=200)
 
 
-        row2 = ft.Row([self._txtSalario, self.btn_graph], alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row2)
+        row1 = ft.Row([self._txtAnno, self._txtSalario, self.btn_graph], alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row1)
 
         self.txt_result1 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         self._page.controls.append(self.txt_result1)
 
-        self._btnConnesse = ft.ElevatedButton(text="Calcola connesse", width=300)
-        self._btnGradoMassimo = ft.ElevatedButton(text="Grado massimo", width=300)
+        self._btnConnesse = ft.ElevatedButton(text="Calcola connesse", width=300, disabled=True, on_click=self._controller.handle_connesse)
+        self._btnGradoMassimo = ft.ElevatedButton(text="Grado massimo", width=300, disabled=True, on_click=self._controller.handle_gradoMax)
 
 
-        self._btnDreamTeam = ft.ElevatedButton(text="Calcola percorso",
-                                             on_click=self._controller.handle_percorso, width=200, disabled=True)
-        row3 = ft.Row([self._btnConnesse, self._btnGradoMassimo, self._btnDreamTeam], alignment=ft.MainAxisAlignment.CENTER)
+        self._btnDreamTeam = ft.ElevatedButton(text="Dream team",
+                                             on_click=self._controller.handle_dreamTeam, width=200, disabled=True)
+        row3 = ft.Row([ self._btnGradoMassimo, self._btnConnesse,self._btnDreamTeam], alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row3)
 
         # List View where the reply is printed
