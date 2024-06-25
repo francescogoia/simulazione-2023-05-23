@@ -48,6 +48,7 @@ class Model:
             self._setNodi.add(n)
         for n in self._nodes:
             self._ricorsione(n, [])
+        print("Lunghezza dream team: ", len(self._dreamTeam))
         return self._dreamTeam, self._dreamSalary
 
     def _ricorsione(self, nodo, parziale):
@@ -57,14 +58,15 @@ class Model:
                 self._dreamSalary = salarioParziale
                 self._dreamTeam = copy.deepcopy(parziale)
         vicini = self._grafo.neighbors(nodo)
-        setVicini = set()
+        """setVicini = set()
         for v in vicini:
             setVicini.add(v)
-        non_vicini = self._setNodi - setVicini
-        for nv in non_vicini:
-            if self.filtroP(nv, parziale):
+        non_vicini = self._setNodi - setVicini"""
+        for nv in self._nodes:
+            if self.filtroP(nv, parziale) and self.squadreDiverse(nv, parziale):
                 parziale.append(nv)
                 self._ricorsione(nv, parziale)
+                parziale.pop()
 
 
     def filtroNodi(self, v, parziale):  # no percorso semplice, non serve
@@ -82,5 +84,15 @@ class Model:
     def filtroP(self, nv, parziale):
         for p in parziale:
             if nv == p:
+                return False
+        return True
+
+    def squadreDiverse(self, nv, parziale):
+        squadreParziale = []
+        for n in parziale:
+            for t in n.teams:
+                squadreParziale.append(t)
+        for t in nv.teams:
+            if t in squadreParziale:
                 return False
         return True
